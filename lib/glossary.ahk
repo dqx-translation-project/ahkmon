@@ -2,7 +2,7 @@
 
 create_glossary(api_key, is_pro)
 {
-	;FileEncoding, UTF-8
+	FileEncoding, UTF-8
 	;FileRead, entries_str, glossary.csv
 
 	entries_str := ""
