@@ -18,5 +18,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Clone custom translations repo
+        uses: GuillaumeFalourd/clone-github-repo-action@v2
+        with:
+          owner: "dqx-translation-project"
+          repository: "dqx-custom-translations"
+      - name: Move latest glossary.csv to root
+        run: Move-Item -Path .\dqx-custom-translations\csv\glossary.csv .\ -Force
       - name: Install Dependencies
         run: choco install autohotkey.install --params='/DefaultVer:U32' 7zip
+      - name: Build ahkmon package
+        run: .\.github\workflows\compile.bat
