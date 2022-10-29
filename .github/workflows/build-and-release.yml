@@ -49,7 +49,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: ahkmon.zip
-          prerelease: true
           tag_name: ${{ github.ref_name }}
 
       - name: Commit version change to branch
@@ -63,4 +62,4 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: "dev"
+          branch: "main"
