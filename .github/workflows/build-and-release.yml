@@ -34,3 +34,4 @@ jobs:
         with:
           files: ahkmon.zip
           prerelease: true
+          tag_name: testing
