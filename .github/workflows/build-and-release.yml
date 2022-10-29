@@ -1,0 +1,65 @@
+---
+name: "generate-exe"
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  generate-zip:
+    strategy:
+      matrix:
+        os: [windows-latest]
+    name: "Build executable"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Clone custom translations repo
+        uses: GuillaumeFalourd/clone-github-repo-action@v2
+        with:
+          owner: "dqx-translation-project"
+          repository: "dqx-custom-translations"
+
+      - name: Move latest glossary.csv to root
+        run: Move-Item -Path .\dqx-custom-translations\csv\glossary.csv .\ -Force
+
+      - name: Install Dependencies
+        run: choco install autohotkey.install --params='/DefaultVer:U32' 7zip
+
+      - name: Strip 'v' from tag
+        uses: mathiasvr/command-output@v1
+        id: latest_tag_no_v
+        with:
+          run: echo "$GITHUB_REF_NAME" | cut -d"v" -f2
+
+      - name: Write new version to file
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: ./version
+          contents: ${{ steps.latest_tag_no_v.outputs.stdout }}
+          write-mode: "overwrite"
+
+      - name: Build ahkmon package
+        run: .\compile_release.bat
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ahkmon.zip
+          tag_name: ${{ github.ref_name }}
+
+      - name: Commit version change to branch
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add version
+          git commit -m "Update version to ${{ github.ref_name }}."
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: "main"
