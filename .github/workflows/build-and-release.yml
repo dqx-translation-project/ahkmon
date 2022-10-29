@@ -13,8 +13,6 @@ jobs:
         os: [windows-latest]
     name: "Build executable"
     runs-on: ${{ matrix.os }}
-    outputs:
-      latest_tag: ${{ steps.latest_tag.outputs.tag }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -31,17 +29,16 @@ jobs:
       - name: Install Dependencies
         run: choco install autohotkey.install --params='/DefaultVer:U32' 7zip
 
-      - name: Get latest pushed tag
-        id: latest_tag
-        uses: ilDug/get-tag-action@v1
-        with:
-          strip_v: true
+      - name: Strip 'v' from tag
+        uses: mathiasvr/command-output@v1
+        id: latest_tag_no_v
+        run: "$GITHUB_REF_NAME".substring(1)
 
       - name: Write new version to file
         uses: DamianReeves/write-file-action@master
         with:
           path: ./version
-          contents: ${{ steps.tag.outputs.tag }}
+          contents: ${{ steps.latest_tag_no_v.outputs.stdout }}
           write-mode: "overwrite"
 
       - name: Build ahkmon package
@@ -52,14 +49,14 @@ jobs:
         with:
           files: ahkmon.zip
           prerelease: true
-          tag_name: v${{ steps.tag.outputs.tag }}
+          tag_name: $GITHUB_REF_NAME
 
       - name: Commit version change to branch
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add version
-          git commit -m "Update version to ${{ steps.bump_version.outputs.next-version }}."
+          git commit -m "Update version to $GITHUB_REF_NAME."
 
       - name: Push changes
         uses: ad-m/github-push-action@master
