@@ -33,7 +33,7 @@ jobs:
         uses: mathiasvr/command-output@v1
         id: latest_tag_no_v
         with:
-          run: Write-Host "$GITHUB_REF_NAME".substring(1)
+          run: echo "$GITHUB_REF_NAME" | cut -d"v" -f2
 
       - name: Write new version to file
         uses: DamianReeves/write-file-action@master
