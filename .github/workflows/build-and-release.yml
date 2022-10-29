@@ -28,4 +28,4 @@ jobs:
       - name: Install Dependencies
         run: choco install autohotkey.install --params='/DefaultVer:U32' 7zip
       - name: Build ahkmon package
-        run: .\.github\workflows\compile.bat
+        run: .\compile_release.bat
