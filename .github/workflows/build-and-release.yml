@@ -50,14 +50,14 @@ jobs:
         with:
           files: ahkmon.zip
           prerelease: true
-          tag_name: $GITHUB_REF_NAME
+          tag_name: ${{ github.ref_name }}
 
       - name: Commit version change to branch
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add version
-          git commit -m "Update version to $GITHUB_REF_NAME."
+          git commit -m "Update version to ${{ github.ref_name }}."
 
       - name: Push changes
         uses: ad-m/github-push-action@master
