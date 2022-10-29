@@ -32,7 +32,8 @@ jobs:
       - name: Strip 'v' from tag
         uses: mathiasvr/command-output@v1
         id: latest_tag_no_v
-        run: "$GITHUB_REF_NAME".substring(1)
+        with:
+          run: "$GITHUB_REF_NAME".substring(1)
 
       - name: Write new version to file
         uses: DamianReeves/write-file-action@master
