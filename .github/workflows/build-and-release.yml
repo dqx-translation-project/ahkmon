@@ -1,0 +1,22 @@
+---
+name: "generate-exe"
+
+on:
+  push:
+    branch:
+      - dev
+    # tags:
+    #   - "v*.*.*"
+
+jobs:
+  generate-zip:
+    strategy:
+      matrix:
+        os: [windows-latest]
+    name: "Build executable"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install Dependencies
+        run: choco install autohotkey.install --params='/DefaultVer:U32' 7zip
