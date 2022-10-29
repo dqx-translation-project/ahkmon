@@ -3,10 +3,8 @@ name: "generate-exe"
 
 on:
   push:
-    branch:
-      - dev
-    # tags:
-    #   - "v*.*.*"
+    tags:
+      - "v*.*.*"
 
 jobs:
   generate-zip:
@@ -15,23 +13,56 @@ jobs:
         os: [windows-latest]
     name: "Build executable"
     runs-on: ${{ matrix.os }}
+    outputs:
+      latest_tag: ${{ steps.latest_tag.outputs.tag }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
       - name: Clone custom translations repo
         uses: GuillaumeFalourd/clone-github-repo-action@v2
         with:
           owner: "dqx-translation-project"
           repository: "dqx-custom-translations"
+
       - name: Move latest glossary.csv to root
         run: Move-Item -Path .\dqx-custom-translations\csv\glossary.csv .\ -Force
+
       - name: Install Dependencies
         run: choco install autohotkey.install --params='/DefaultVer:U32' 7zip
+
+      - name: Get latest pushed tag
+        id: latest_tag
+        uses: ilDug/get-tag-action@v1
+        with:
+          strip_v: true
+
+      - name: Write new version to file
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: ./version
+          contents: ${{ steps.tag.outputs.tag }}
+          write-mode: "overwrite"
+
       - name: Build ahkmon package
         run: .\compile_release.bat
+
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
           files: ahkmon.zip
           prerelease: true
-          tag_name: testing
+          tag_name: v${{ steps.tag.outputs.tag }}
+
+      - name: Commit version change to branch
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add version
+          git commit -m "Update version to ${{ steps.bump_version.outputs.next-version }}."
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: "dev"
