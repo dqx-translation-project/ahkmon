@@ -33,7 +33,7 @@ jobs:
         uses: mathiasvr/command-output@v1
         id: latest_tag_no_v
         with:
-          run: "$GITHUB_REF_NAME".substring(1)
+          run: Write-Host "$GITHUB_REF_NAME".substring(1)
 
       - name: Write new version to file
         uses: DamianReeves/write-file-action@master
