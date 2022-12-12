@@ -53,7 +53,7 @@ var:= ComObjCreate("WScript.Shell").Exec("cmd.exe /q /c CertUtil -hashfile gloss
 outputArr := (StrSplit(var , "`r`n"))
 first_hash :=outputArr[2]
 
-downloadFile("https://raw.githubusercontent.com/dqx-translation-project/dqx_custom_translations/main/csv/glossary.csv")
+downloadFile("https://raw.githubusercontent.com/dqx-translation-project/dqx-custom-translations/main/csv/glossary.csv")
 
 var_2 := ComObjCreate("WScript.Shell").Exec("cmd.exe /q /c CertUtil -hashfile glossary.csv MD5").StdOut.ReadAll()
 outputArr_2 := (StrSplit(var_2 , "`r`n"))
@@ -113,6 +113,7 @@ IniRead, questFontType, settings.ini, questoverlay, questFontType, Arial
 IniRead, questOverlayPosX, settings.ini, questoverlay, questOverlayPosX, 0
 IniRead, questOverlayPosY, settings.ini, questoverlay, questOverlayPosY, 0
 IniRead, questOverlayTransparency, settings.ini, questoverlay, questOverlayTransparency, 255
+IniRead, questOverlayEn, settings.ini, questoverlay, questOverlayEn, 0
 IniRead, walkthroughResizeOverlay, settings.ini, walkthroughoverlay, walkthroughResizeOverlay, 0
 IniRead, walkthroughRoundedOverlay, settings.ini, walkthroughoverlay, walkthroughRoundedOverlay, 1
 IniRead, walkthroughAutoHideOverlay, settings.ini, walkthroughoverlay, walkthroughAutoHideOverlay, 0
@@ -178,7 +179,7 @@ Gui, Font, s10, Segoe UI
 Gui, Add, Tab3,, General|Dialog Overlay|Quest Overlay|Story Overlay|Mail Overlay|Login Message Overlay|Advanced|Translate APIs|Help|About
 Gui, Add, Link,, <a href="https://github.com/jmctune/ahkmon/wiki/General-tab">General Settings Documentation</a>
 Gui, Add, Text,, ahkmon: Automate your DQX text translation.
-Gui, Add, Picture, w300 h165, imgs/dqx_logo.png
+Gui, Add, Picture, x45 y140 w300 h165, imgs/dqx_logo.png
 Gui, Add, Link,, Language you want to translate text to:`n<a href="https://www.andiamo.co.uk/resources/iso-language-codes/">Regional Codes</a>
 Gui, Add, DDL, vLanguage, %Language%||bg|cs|da|de|el|en|es|et|fi|fr|hu|it|ko|lt|lv|nl|pl|pt|ro|ru|sk|sl|sv|zh
 Gui, Add, Checkbox, vTranslateDialog Checked%enableDialog%, Enable Dialog translations?
@@ -229,6 +230,7 @@ Gui, Add, CheckBox, vquestResizeOverlay Checked%questResizeOverlay%, Allow resiz
 Gui, Add, CheckBox, vquestRoundedOverlay Checked%questRoundedOverlay%, Rounded Quest overlay?
 Gui, Add, CheckBox, vquestAutoHideOverlay Checked%questAutoHideOverlay%, Automatically hide Quest overlay?
 Gui, Add, CheckBox, vquestShowOnTaskbar Checked%questShowOnTaskbar%, Show Quest overlay on taskbar when active?
+Gui, Add, CheckBox, vquestOverlayEn Checked%questOverlayEn%, Show English quest descriptions on overlay?
 Gui, Add, Text,, Quest overlay transparency`n(lower = more transparent):
 Gui, Add, Slider, vquestOverlayTransparency Range10-255 TickInterval3 Page3 Line3 Tooltip, %questOverlayTransparency%
 Gui, Add, Text, vquestOverlayColorInfo, Quest overlay background color`n(use hex color codes):
@@ -529,6 +531,7 @@ Save:
   IniWrite, %questShowOnTaskbar%, settings.ini, questoverlay, questShowOnTaskbar
   IniWrite, %questOverlayPosX%, settings.ini, questoverlay, questOverlayPosX
   IniWrite, %questOverlayPosY%, settings.ini, questoverlay, questOverlayPosY
+  IniWrite, %questOverlayEn%, settings.ini, questoverlay, questOverlayEn
   IniWrite, %walkthroughOverlayWidth%, settings.ini, walkthroughoverlay, walkthroughOverlayWidth
   IniWrite, %walkthroughRoundedOverlay%, settings.ini, walkthroughoverlay, walkthroughRoundedOverlay
   IniWrite, %walkthroughOverlayHeight%, settings.ini, walkthroughoverlay, walkthroughOverlayHeight

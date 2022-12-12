@@ -32,6 +32,7 @@ IniRead, FontType, settings.ini, questoverlay, questFontType, Arial
 IniRead, OverlayPosX, settings.ini, questoverlay, questOverlayPosX, 0
 IniRead, OverlayPosY, settings.ini, questoverlay, questOverlayPosY, 0
 IniRead, OverlayTransparency, settings.ini, questoverlay, questOverlayTransparency, 255
+IniRead, OverlayEn, settings.ini, questoverlay, questOverlayEn, 0
 IniRead, UseDeepLTranslate, settings.ini, deepl, UseDeepLTranslate, 0
 IniRead, DeepLApiPro, settings.ini, deepl, DeepLApiPro, 0
 IniRead, DeepLAPIKey, settings.ini, deepl, DeepLAPIKey, EMPTY
@@ -140,6 +141,16 @@ loop
                 GuiControl, Text, Overlay, SubQuest: %questSubQuestName%`nQuest: %questName%`n`n%questDescription%
               else
                 GuiControl, Text, Overlay, Quest: %questName%`n`n%questDescription%
+            }
+            else if (OverlayEn = 1) && (ansicount > 20)
+            {
+              questDescription := StrReplace(questDescription, "`r")
+              questDescription := StrReplace(questDescription, "`n", " ")
+              questDescription := StrReplace(questDescription, "{color=yellow}")
+              questDescription := StrReplace(questDescription, "{reset}")
+              GuiControl, Text, Overlay, ...
+              Gui, Show
+              GuiControl, Text, Overlay, %questDescription%
             }
           Loop {
             lastQuestName := dqx.readString(baseAddress + questAddress, sizeBytes := 0, encoding := "utf-8", questNameOffsets*)
