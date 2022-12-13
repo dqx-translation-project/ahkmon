@@ -122,6 +122,7 @@ loop
 
           RegExReplace(questDescription, "(*UCP)\w",, utfcount)
           RegExReplace(questDescription, "\w",, ansicount)
+          RegExReplace(questDescription, "`n",, linecount)
 
           if (questDescription != "")
 		    if (utfcount > 20) && (ansicount < 10)
@@ -142,7 +143,7 @@ loop
               else
                 GuiControl, Text, Overlay, Quest: %questName%`n`n%questDescription%
             }
-            else if (OverlayEn = 1) && (ansicount > 20)
+            else if (OverlayEn = 1) && (ansicount > 40) && (linecount > 6)
             {
               questDescription := StrReplace(questDescription, "`r")
               questDescription := StrReplace(questDescription, "`n", " ")
