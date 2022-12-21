@@ -117,8 +117,8 @@ loop
 
       if (voiceMail != "") && (if InStr(newMail, "sound"))
         if (lastMail != voiceMail)
-		  if (utfcount > 45) && (ansicount <1)
-		  {
+          if (utfcount > 45) && (ansicount <1)
+          {
             GuiControl, Text, Overlay, ...
             Gui, Show
 
@@ -130,7 +130,7 @@ loop
               Sleep 250
             }
             Until (lastMail != voiceMail)
-		  }
+          }
       else
       {
         if (AutoHideOverlay = 1)
@@ -145,7 +145,7 @@ loop
       GuiControl, Text, Overlay,
 
       lastMail := mail
-      Sleep 750
+      Sleep 50
 
       ;; Break out of loop if game closed
       Process, Exist, DQXGame.exe

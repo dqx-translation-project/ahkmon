@@ -141,8 +141,8 @@ loop
 
       if (newloginMessage != "") && (utfcount > 10)
         if (lastloginMessage != newloginMessage)
-		  if (utfcount > 10)
-		  {
+          if (utfcount > 10)
+          {
             ;; Read string at address and sanitize before sending for translation
 
             GuiControl, Text, Overlay, ...
@@ -158,7 +158,7 @@ loop
               Sleep 250
             }
             Until ((JoystickEnabled = 1 && GetKeyPress(JoystickKeys)) || (JoystickEnabled = 0 && GetKeyPress(KeyboardKeys)))
-		  }
+          }
       else
       {
         if (AutoHideOverlay = 1)
@@ -171,7 +171,7 @@ loop
 
       GuiControl, Text, Overlay,
 
-      Sleep 750
+      Sleep 50
 
 	  exit
 

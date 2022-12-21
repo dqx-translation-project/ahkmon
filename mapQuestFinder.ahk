@@ -148,12 +148,13 @@ loop
           questSubQuestName := dqx.readString(baseAddress + questAddress , sizeBytes := 0, encoding := "utf-8", questSubQuestNameOffsets*)
           questNumber := dqx.readString(baseAddress + questAddress , sizeBytes := 0, encoding := "utf-8", questNumberOffsets*)
 
-          RegExReplace(questDescription, "(*UCP)\w",, utfcount)
-          RegExReplace(questDescription, "\w",, ansicount)
-
           if (questDescription != "")
-		    if (utfcount > 20) && (ansicount < 10)
-			{
+            questDescription := StrReplace(questDescription, "{color=yellow}", "")
+            questDescription := StrReplace(questDescription, "{reset}", "")
+            RegExReplace(questDescription, "(*UCP)\w",, utfcount)
+            RegExReplace(questDescription, "\w",, ansicount)
+            if (utfcount > 20) && (ansicount < 10)
+            {
               GuiControl, Text, Overlay, ...
               Gui, Show
               if (questSubQuestName != "")
@@ -161,8 +162,6 @@ loop
 
               questName := translate(newQuestName, "false")
               questDescription := translate(questDescription, "false")
-              questDescription := StrReplace(questDescription, "{color=yellow}", "")
-              questDescription := StrReplace(questDescription, "{reset}", "")
               questNumber := StrReplace(questNumber, "", "")
 
               if (questSubQuestName != "")
@@ -178,11 +177,11 @@ loop
               newQuestName := dqx.WriteString(baseAddress + questAddress, "", "UTF-8", questNameOffsets*)
               Gui, Hide
             }
-		    else if ((JoystickEnabled = 1 && GetKeyPress(JoystickKeys)) || (JoystickEnabled = 0 && GetKeyPress(KeyboardKeys)))
-		    {
-		      newQuestName := dqx.WriteString(baseAddress + questAddress, "", "UTF-8", questNameOffsets*)
-		      Gui, Hide
-		    }
+            else if ((JoystickEnabled = 1 && GetKeyPress(JoystickKeys)) || (JoystickEnabled = 0 && GetKeyPress(KeyboardKeys)))
+            {
+              newQuestName := dqx.WriteString(baseAddress + questAddress, "", "UTF-8", questNameOffsets*)
+              Gui, Hide
+            }
 
             lastQuestName := dqx.readString(baseAddress + questAddress, sizeBytes := 0, encoding := "utf-8", questNameOffsets*)
             Sleep 250
@@ -203,7 +202,7 @@ loop
       GuiControl, Text, Overlay,
 
       lastQuestName := questName
-      Sleep 750
+      Sleep 50
 
       ;; Break out of loop if game closed
       Process, Exist, DQXGame.exe

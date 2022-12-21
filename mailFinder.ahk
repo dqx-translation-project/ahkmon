@@ -115,8 +115,8 @@ loop
 
       if (newMail != "") && (utfcount > 45)
         if (lastMail != newMail)
-		  if (utfcount > 45) && (ansicount <1)
-		  {
+          if (utfcount > 45) && (ansicount <1)
+          {
             GuiControl, Text, Overlay, ...
             Gui, Show
 
@@ -128,7 +128,7 @@ loop
               Sleep 250
             }
             Until (lastMail != newMail)
-		  }
+          }
       else
       {
         if (AutoHideOverlay = 1)
@@ -143,7 +143,7 @@ loop
       GuiControl, Text, Overlay,
 
       lastMail := mail
-      Sleep 750
+      Sleep 50
 
       ;; Break out of loop if game closed
       Process, Exist, DQXGame.exe

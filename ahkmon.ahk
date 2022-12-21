@@ -230,7 +230,7 @@ Gui, Add, CheckBox, vquestResizeOverlay Checked%questResizeOverlay%, Allow resiz
 Gui, Add, CheckBox, vquestRoundedOverlay Checked%questRoundedOverlay%, Rounded Quest overlay?
 Gui, Add, CheckBox, vquestAutoHideOverlay Checked%questAutoHideOverlay%, Automatically hide Quest overlay?
 Gui, Add, CheckBox, vquestShowOnTaskbar Checked%questShowOnTaskbar%, Show Quest overlay on taskbar when active?
-Gui, Add, CheckBox, vquestOverlayEn Checked%questOverlayEn%, Show English quest descriptions on overlay?
+Gui, Add, CheckBox, vquestOverlayEn Checked%questOverlayEn%, Show cut off English quest descriptions on overlay?
 Gui, Add, Text,, Quest overlay transparency`n(lower = more transparent):
 Gui, Add, Slider, vquestOverlayTransparency Range10-255 TickInterval3 Page3 Line3 Tooltip, %questOverlayTransparency%
 Gui, Add, Text, vquestOverlayColorInfo, Quest overlay background color`n(use hex color codes):

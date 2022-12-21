@@ -120,13 +120,14 @@ loop
           questSubQuestName := dqx.readString(baseAddress + questAddress , sizeBytes := 0, encoding := "utf-8", questSubQuestNameOffsets*)
           questNumber := dqx.readString(baseAddress + questAddress , sizeBytes := 0, encoding := "utf-8", questNumberOffsets*)
 
-          RegExReplace(questDescription, "(*UCP)\w",, utfcount)
-          RegExReplace(questDescription, "\w",, ansicount)
-          RegExReplace(questDescription, "`n",, linecount)
-
           if (questDescription != "")
-		    if (utfcount > 20) && (ansicount < 10)
-			{
+            questDescription := StrReplace(questDescription, "{color=yellow}", "")
+            questDescription := StrReplace(questDescription, "{reset}", "")
+            RegExReplace(questDescription, "(*UCP)\w",, utfcount)
+            RegExReplace(questDescription, "\w",, ansicount)
+            RegExReplace(questDescription, "`n",, linecount)
+            if (utfcount > 20) && (ansicount < 10)
+            {
               GuiControl, Text, Overlay, ...
               Gui, Show
               if (questSubQuestName != "")
@@ -134,8 +135,6 @@ loop
 
               questName := translate(newQuestName, "false")
               questDescription := translate(questDescription, "false")
-              questDescription := StrReplace(questDescription, "{color=yellow}", "")
-              questDescription := StrReplace(questDescription, "{reset}", "")
               questNumber := StrReplace(questNumber, "", "")
 
               if (questSubQuestName != "")
@@ -147,11 +146,14 @@ loop
             {
               questDescription := StrReplace(questDescription, "`r")
               questDescription := StrReplace(questDescription, "`n", " ")
-              questDescription := StrReplace(questDescription, "{color=yellow}")
-              questDescription := StrReplace(questDescription, "{reset}")
               GuiControl, Text, Overlay, ...
               Gui, Show
-              GuiControl, Text, Overlay, %questDescription%
+              if InStr(newQuestName, "討伐！"){
+                questName := translate(newQuestName, "false")
+                GuiControl, Text, Overlay, Quest: %questName%`n`n%questDescription%
+              }
+              else
+                GuiControl, Text, Overlay, %questDescription%
             }
           Loop {
             lastQuestName := dqx.readString(baseAddress + questAddress, sizeBytes := 0, encoding := "utf-8", questNameOffsets*)
@@ -172,8 +174,8 @@ loop
 
       GuiControl, Text, Overlay,
 
-      lastQuestName := questName
-      Sleep 750
+      lastQuestName := ""
+      Sleep 50
 
       ;; Break out of loop if game closed
       Process, Exist, DQXGame.exe
