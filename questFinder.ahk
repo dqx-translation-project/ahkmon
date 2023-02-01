@@ -51,7 +51,7 @@ Global GoogleTranslateAPIKey
 Global GlossaryID
 
 ;; === General Quest Text ====================================================
-questAddress := 0x01F7794C
+questAddress := 0x01F8798C
 questNameOffsets := [0xC, 0x8, 0x4C4]
 questSubQuestNameOffsets := [0xC, 0x8, 0x48C]
 questDescriptionOffsets := [0xC, 0x8, 0x4FC]
@@ -148,7 +148,8 @@ loop
               questDescription := StrReplace(questDescription, "`n", " ")
               GuiControl, Text, Overlay, ...
               Gui, Show
-              if InStr(newQuestName, "討伐！"){
+              if InStr(newQuestName, "討伐！")
+              {
                 questName := translate(newQuestName, "false")
                 GuiControl, Text, Overlay, Quest: %questName%`n`n%questDescription%
               }
@@ -175,7 +176,7 @@ loop
       GuiControl, Text, Overlay,
 
       lastQuestName := ""
-      Sleep 50
+      Sleep 100
 
       ;; Break out of loop if game closed
       Process, Exist, DQXGame.exe

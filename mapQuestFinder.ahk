@@ -77,11 +77,11 @@ loop 32
   JoystickKeys .= JoystickNumber . "Joy" . A_Index . ","
 
 ;; === General Quest Text ====================================================
-questAddress := 0x01F76CF0
+questAddress := 0x01F86D30
 questNameOffsets := [0x34, 0xCC, 0x108]
 questSubQuestNameOffsets := [0x34, 0xCC, 0xD0]
 questDescriptionOffsets := [0x34, 0xCC, 0x140]
-mapOpenPointer := 0x01F731CC
+mapOpenPointer := 0x01F831EC
 mapOpenOffsets := [0x8, 0x38, 0x4, 0x4, 0x4, 0x104]
 
 ;== Save overlay POS when moved =============================================
@@ -202,7 +202,7 @@ loop
       GuiControl, Text, Overlay,
 
       lastQuestName := questName
-      Sleep 50
+      Sleep 100
 
       ;; Break out of loop if game closed
       Process, Exist, DQXGame.exe

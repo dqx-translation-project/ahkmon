@@ -77,8 +77,8 @@ loop 32
   JoystickKeys .= JoystickNumber . "Joy" . A_Index . ","
 
 ;; === "Login Messages" text ===================================================
-loginMessageAddress := 0x01F7794C
-loginMessageOffsets := [0x4C, 0x40, 0x48, 0x78, 0x0, 0x0, 0x0, 0x0, 0x58, 0x0]
+loginMessageAddress := 0x01F8798C
+loginMessageOffsets := [0x4C, 0x24, 0x8, 0x90, 0x0, 0x0, 0x0, 0x18, 0xB8, 0x0]
 
 ;== Save overlay POS when moved =============================================
 WM_LBUTTONDOWN(wParam,lParam,msg,hwnd) {
@@ -171,7 +171,7 @@ loop
 
       GuiControl, Text, Overlay,
 
-      Sleep 50
+      Sleep 100
 
 	  exit
 

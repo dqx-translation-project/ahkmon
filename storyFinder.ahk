@@ -50,7 +50,7 @@ Global GoogleTranslateAPIKey
 Global GlossaryID
 
 ;; === "Story So Far" text ===================================================
-storyAddress := 0x01F76CF0
+storyAddress := 0x01F86D30
 storyDescriptionOffsets := [0x34, 0xB0, 0xE4, 0x30, 0x8, 0x0, 0x10, 0x4, 0x44, 0x0]
 
 ;== Save overlay POS when moved =============================================
@@ -145,7 +145,7 @@ loop
       GuiControl, Text, Overlay,
 
       lastStoryDescription := storyDescription
-      Sleep 50
+      Sleep 100
 
       ;; Break out of loop if game closed
       Process, Exist, DQXGame.exe
