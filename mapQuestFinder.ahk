@@ -81,7 +81,7 @@ questAddress := 0x01F86D30
 questNameOffsets := [0x34, 0xCC, 0x108]
 questSubQuestNameOffsets := [0x34, 0xCC, 0xD0]
 questDescriptionOffsets := [0x34, 0xCC, 0x140]
-mapOpenPointer := 0x01F831EC
+mapOpenPointer := 0x01F831F8
 mapOpenOffsets := [0x8, 0x38, 0x4, 0x4, 0x4, 0x104]
 
 ;== Save overlay POS when moved =============================================

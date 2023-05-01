@@ -51,7 +51,7 @@ Global GoogleTranslateAPIKey
 Global GlossaryID
 
 ;; === General Quest Text ====================================================
-questAddress := 0x01F8798C
+questAddress := 0x01F87988
 questNameOffsets := [0xC, 0x8, 0x4C4]
 questSubQuestNameOffsets := [0xC, 0x8, 0x48C]
 questDescriptionOffsets := [0xC, 0x8, 0x4FC]
