@@ -77,8 +77,8 @@ loop 32
   JoystickKeys .= JoystickNumber . "Joy" . A_Index . ","
 
 ;; === "Login Messages" text ===================================================
-loginMessageAddress := 0x01F7794C
-loginMessageOffsets := [0x4C, 0x40, 0x48, 0x78, 0x0, 0x0, 0x0, 0x0, 0x58, 0x0]
+loginMessageAddress := 0x01F87988
+loginMessageOffsets := [0x4C, 0x24, 0x8, 0x90, 0x0, 0x0, 0x0, 0x18, 0xB8, 0x0]
 
 ;== Save overlay POS when moved =============================================
 WM_LBUTTONDOWN(wParam,lParam,msg,hwnd) {
@@ -141,8 +141,8 @@ loop
 
       if (newloginMessage != "") && (utfcount > 10)
         if (lastloginMessage != newloginMessage)
-		  if (utfcount > 10)
-		  {
+          if (utfcount > 10)
+          {
             ;; Read string at address and sanitize before sending for translation
 
             GuiControl, Text, Overlay, ...
@@ -158,7 +158,7 @@ loop
               Sleep 250
             }
             Until ((JoystickEnabled = 1 && GetKeyPress(JoystickKeys)) || (JoystickEnabled = 0 && GetKeyPress(KeyboardKeys)))
-		  }
+          }
       else
       {
         if (AutoHideOverlay = 1)
@@ -171,7 +171,7 @@ loop
 
       GuiControl, Text, Overlay,
 
-      Sleep 750
+      Sleep 100
 
 	  exit
 

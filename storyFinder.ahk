@@ -50,7 +50,7 @@ Global GoogleTranslateAPIKey
 Global GlossaryID
 
 ;; === "Story So Far" text ===================================================
-storyAddress := 0x01F76CF0
+storyAddress := 0x01F86D30
 storyDescriptionOffsets := [0x34, 0xB0, 0xE4, 0x30, 0x8, 0x0, 0x10, 0x4, 0x44, 0x0]
 
 ;== Save overlay POS when moved =============================================
@@ -112,11 +112,13 @@ loop
 
       RegExReplace(newStoryDescription, "(*UCP)\w",, utfcount)
       RegExReplace(newStoryDescription, "\w",, ansicount)
+      RegExReplace(newStoryDescription, "・",, bulletcount)
+      RegExReplace(newStoryDescription, "戦いのきろく",, badstring)
 
-      if (newStoryDescription != "") && (utfcount > 20)
+      if (newStoryDescription != "")
         if (lastStoryDescription != newStoryDescription)
-		  if (utfcount > 20) && (ansicount <1)
-		  {
+          if (utfcount > 12) && (ansicount < 1) && (bulletcount < 1) && (badstring < 1)
+          {
             GuiControl, Text, Overlay, ...
             Gui, Show
 
@@ -128,7 +130,7 @@ loop
               Sleep 250
             }
             Until (lastStoryDescription != newStoryDescription)
-		  }
+          }
       else
       {
         if (AutoHideOverlay = 1)
@@ -138,12 +140,12 @@ loop
       }
 
       if (AutoHideOverlay = 1)
-          Gui, Hide
+        Gui, Hide
 
       GuiControl, Text, Overlay,
 
       lastStoryDescription := storyDescription
-      Sleep 750
+      Sleep 100
 
       ;; Break out of loop if game closed
       Process, Exist, DQXGame.exe

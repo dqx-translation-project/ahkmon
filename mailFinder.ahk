@@ -50,7 +50,7 @@ Global GoogleTranslateAPIKey
 Global GlossaryID
 
 ;; === "Mail" text ===================================================
-mailAddress := 0x01F7794C
+mailAddress := 0x01F87988
 mailOffsets := [0x4C, 0x44, 0x8, 0xFC, 0x0, 0x10, 0x0, 0x0, 0x0, 0x10]
 
 ;== Save overlay POS when moved =============================================
@@ -115,8 +115,8 @@ loop
 
       if (newMail != "") && (utfcount > 45)
         if (lastMail != newMail)
-		  if (utfcount > 45) && (ansicount <1)
-		  {
+          if (utfcount > 45) && (ansicount <1)
+          {
             GuiControl, Text, Overlay, ...
             Gui, Show
 
@@ -128,7 +128,7 @@ loop
               Sleep 250
             }
             Until (lastMail != newMail)
-		  }
+          }
       else
       {
         if (AutoHideOverlay = 1)
@@ -143,7 +143,7 @@ loop
       GuiControl, Text, Overlay,
 
       lastMail := mail
-      Sleep 750
+      Sleep 100
 
       ;; Break out of loop if game closed
       Process, Exist, DQXGame.exe

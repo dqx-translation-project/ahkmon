@@ -50,7 +50,7 @@ Global GoogleTranslateAPIKey
 Global GlossaryID
 
 ;; === "Mail" text ===================================================
-mailAddress := 0x01F7794C
+mailAddress := 0x01F87988
 mailOffsets := [0x4C, 0x44, 0x8, 0xFC, 0x0, 0x10, 0x0, 0x0, 0x0, 0x10]
 voiceOffsets := [0x4C, 0x44, 0x20, 0x28, 0x90, 0x4, 0x20, 0x4, 0x44, 0x0]
 
@@ -117,8 +117,8 @@ loop
 
       if (voiceMail != "") && (if InStr(newMail, "sound"))
         if (lastMail != voiceMail)
-		  if (utfcount > 45) && (ansicount <1)
-		  {
+          if (utfcount > 45) && (ansicount <1)
+          {
             GuiControl, Text, Overlay, ...
             Gui, Show
 
@@ -130,7 +130,7 @@ loop
               Sleep 250
             }
             Until (lastMail != voiceMail)
-		  }
+          }
       else
       {
         if (AutoHideOverlay = 1)
@@ -145,7 +145,7 @@ loop
       GuiControl, Text, Overlay,
 
       lastMail := mail
-      Sleep 750
+      Sleep 100
 
       ;; Break out of loop if game closed
       Process, Exist, DQXGame.exe

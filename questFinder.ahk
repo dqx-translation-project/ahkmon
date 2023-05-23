@@ -32,6 +32,7 @@ IniRead, FontType, settings.ini, questoverlay, questFontType, Arial
 IniRead, OverlayPosX, settings.ini, questoverlay, questOverlayPosX, 0
 IniRead, OverlayPosY, settings.ini, questoverlay, questOverlayPosY, 0
 IniRead, OverlayTransparency, settings.ini, questoverlay, questOverlayTransparency, 255
+IniRead, OverlayEn, settings.ini, questoverlay, questOverlayEn, 0
 IniRead, UseDeepLTranslate, settings.ini, deepl, UseDeepLTranslate, 0
 IniRead, DeepLApiPro, settings.ini, deepl, DeepLApiPro, 0
 IniRead, DeepLAPIKey, settings.ini, deepl, DeepLAPIKey, EMPTY
@@ -50,7 +51,7 @@ Global GoogleTranslateAPIKey
 Global GlossaryID
 
 ;; === General Quest Text ====================================================
-questAddress := 0x01F7794C
+questAddress := 0x01F87988
 questNameOffsets := [0xC, 0x8, 0x4C4]
 questSubQuestNameOffsets := [0xC, 0x8, 0x48C]
 questDescriptionOffsets := [0xC, 0x8, 0x4FC]
@@ -119,12 +120,14 @@ loop
           questSubQuestName := dqx.readString(baseAddress + questAddress , sizeBytes := 0, encoding := "utf-8", questSubQuestNameOffsets*)
           questNumber := dqx.readString(baseAddress + questAddress , sizeBytes := 0, encoding := "utf-8", questNumberOffsets*)
 
-          RegExReplace(questDescription, "(*UCP)\w",, utfcount)
-          RegExReplace(questDescription, "\w",, ansicount)
-
           if (questDescription != "")
-		    if (utfcount > 20) && (ansicount < 10)
-			{
+            questDescription := StrReplace(questDescription, "{color=yellow}", "")
+            questDescription := StrReplace(questDescription, "{reset}", "")
+            RegExReplace(questDescription, "(*UCP)\w",, utfcount)
+            RegExReplace(questDescription, "\w",, ansicount)
+            RegExReplace(questDescription, "`n",, linecount)
+            if (utfcount > 20) && (ansicount < 10)
+            {
               GuiControl, Text, Overlay, ...
               Gui, Show
               if (questSubQuestName != "")
@@ -132,14 +135,26 @@ loop
 
               questName := translate(newQuestName, "false")
               questDescription := translate(questDescription, "false")
-              questDescription := StrReplace(questDescription, "{color=yellow}", "")
-              questDescription := StrReplace(questDescription, "{reset}", "")
               questNumber := StrReplace(questNumber, "", "")
 
               if (questSubQuestName != "")
                 GuiControl, Text, Overlay, SubQuest: %questSubQuestName%`nQuest: %questName%`n`n%questDescription%
               else
                 GuiControl, Text, Overlay, Quest: %questName%`n`n%questDescription%
+            }
+            else if (OverlayEn = 1) && (ansicount > 40) && (linecount > 6)
+            {
+              questDescription := StrReplace(questDescription, "`r")
+              questDescription := StrReplace(questDescription, "`n", " ")
+              GuiControl, Text, Overlay, ...
+              Gui, Show
+              if InStr(newQuestName, "討伐！")
+              {
+                questName := translate(newQuestName, "false")
+                GuiControl, Text, Overlay, Quest: %questName%`n`n%questDescription%
+              }
+              else
+                GuiControl, Text, Overlay, %questDescription%
             }
           Loop {
             lastQuestName := dqx.readString(baseAddress + questAddress, sizeBytes := 0, encoding := "utf-8", questNameOffsets*)
@@ -160,8 +175,8 @@ loop
 
       GuiControl, Text, Overlay,
 
-      lastQuestName := questName
-      Sleep 750
+      lastQuestName := ""
+      Sleep 100
 
       ;; Break out of loop if game closed
       Process, Exist, DQXGame.exe
