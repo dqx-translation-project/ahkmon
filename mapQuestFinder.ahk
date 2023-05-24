@@ -38,7 +38,6 @@ IniRead, DeepLApiPro, settings.ini, deepl, DeepLApiPro, 0
 IniRead, DeepLAPIKey, settings.ini, deepl, DeepLAPIKey, EMPTY
 IniRead, UseGoogleTranslate, settings.ini, google, UseGoogleTranslate, 0
 IniRead, GoogleTranslateAPIKey, settings.ini, google, GoogleTranslateAPIKey, EMPTY
-IniRead, GlossaryID, settings.ini, deepl, GlossaryID, EMPTY
 
 ;; === Global vars we'll be using elsewhere ==================================
 Global Log
@@ -48,7 +47,6 @@ Global DeepLAPIKey
 Global DeepLApiPro
 Global UseGoogleTranslate
 Global GoogleTranslateAPIKey
-Global GlossaryID
 
 ;=== Controller Configuration ==============================================
 if (JoystickEnabled = 1)

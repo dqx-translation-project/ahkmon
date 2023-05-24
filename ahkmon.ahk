@@ -4,7 +4,6 @@
 #Include <translate>
 #Include <JSON>
 #Include <SQLiteDB>
-#Include <glossary>
 SendMode Input
 
 ;=== Close any existing finder windows ======================================
@@ -43,39 +42,13 @@ if (latestVersion != currentVersion)
 }
 else
 {
-tmpLoc := A_ScriptDir "\tmp"
-if FileExist(tmpLoc)
-  FileRemoveDir, %A_ScriptDir%\tmp, 1
-  sleep 50
+  tmpLoc := A_ScriptDir "\tmp"
+  if FileExist(tmpLoc)
+    FileRemoveDir, %A_ScriptDir%\tmp, 1
+    sleep 50
 }
-
-var:= ComObjCreate("WScript.Shell").Exec("cmd.exe /q /c CertUtil -hashfile glossary.csv MD5").StdOut.ReadAll()
-outputArr := (StrSplit(var , "`r`n"))
-first_hash :=outputArr[2]
 
 downloadFile("https://raw.githubusercontent.com/dqx-translation-project/dqx-custom-translations/main/csv/glossary.csv")
-
-var_2 := ComObjCreate("WScript.Shell").Exec("cmd.exe /q /c CertUtil -hashfile glossary.csv MD5").StdOut.ReadAll()
-outputArr_2 := (StrSplit(var_2 , "`r`n"))
-second_hash :=outputArr_2[2]
-
-IniRead, glossaryID, settings.ini, deepl, GlossaryID, EMPTY
-
-if(first_hash != second_hash || !glossaryID || glossaryID = "EMPTY")
-{
-  IniRead, deepluse, settings.ini, deepl, UseDeepLTranslate, 0
-  IniRead, deeplpro, settings.ini, deepl, DeepLApiPro, 0
-  IniRead, apikey, settings.ini, deepl, DeepLAPIKey, EMPTY
-  if((deepluse != 0 or deeplpro !=0) && (apikey != "EMPTY" && apikey))
-  {
-    if(glossaryID != "EMPTY")
-    {
-      delete_glossary(glossaryID, apikey, deeplpro)
-    }
-    create_glossary(apikey, deeplpro)
-  }
-
-}
 
 ;=== Load Start GUI settings from file ======================================
 IniRead, Language, settings.ini, general, Language, en
@@ -397,7 +370,6 @@ Gui, Add, Text,, DeepL API Key:
 Gui, Add, Edit, r1 vDeepLAPIKey w135, %DeepLAPIKey%
 Gui, Add, Button, gDeepLWordsLeft, Check remaining character count
 Gui, Add, Text, w+300 vDeepLWords,
-;Gui, Add, Button, gGlossary, About Glossary (NEW)
 Gui, Add, Text,, ----------------------------------------------------
 Gui, Add, Text,, Google Translate Configuration:
 Gui, Add, CheckBox, vUseGoogleTranslate Checked%UseGoogleTranslate%, Use Google Translate
@@ -443,10 +415,6 @@ DeepLWordsLeft:
     GuiControl, Text, DeepLWords, %charRemaining% characters remaining
   else
     GuiControl, Text, DeepLWords, Key validation failed
-  return
-
-Glossary:
-  MsgBox The glossary function takes advantage of better quality translations. If you want to use the glossary feature in AHKmon, please enter your API key in Clarity's 'API Service Settings' and run Clarity first before running AHKmon.
   return
 
 GoogleTranslateValidate:
