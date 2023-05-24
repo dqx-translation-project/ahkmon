@@ -1,4 +1,6 @@
-﻿translate(dqText, isDialog)
+﻿#Include <glossary>
+
+translate(dqText, isDialog)
 {
   ;; Open database connection.
   dbFileName := A_ScriptDir . "\dqxtrl.db"
@@ -6,8 +8,9 @@
 
   ;; Iterate through each line returned.
   fullDialog :=
-  for index, sentence in StrSplit(dqText, "`n`n", "`r") {
-    if (sentence = "")
+  for index, sentence in StrSplit(dqText, "`n`n", "`r")
+  {
+    if sentence = ""
       continue
     else
     {
@@ -29,39 +32,23 @@
     ;; If no matching line was found in the database, query the translation service.
     if !result
     {
+      ;; Replace text with glossary before sending off to be translated
+      glossified_sentence := glossify(sentence)
+
       ;; If not found locally, make a call to the translate API to get translated text.
-      if (UseDeepLTranslate = 1)
+      if UseDeepLTranslate = 1
       {
-		if(Language = "en")
-		{
-			Language := "en-us"
-		}
+        if Language = "en"
+          Language := "en-us"
 
-        if(GlossaryID && GlossaryID != "EMPTY")
-        {
-          StringUpper, languageUpper, Language
-          Body := "auth_key="
-                . DeepLAPIKey
-                . "&source_lang=JA"
-                . "&target_lang="
-                . languageUpper
-                . "&text="
-                . sentence
-                . "&glossary_id="
-                . GlossaryID
-        }
-        else
-        {
-		  StringUpper, languageUpper, Language
-          Body := "auth_key="
-                . DeepLAPIKey
-                . "&source_lang=JA"
-                . "&target_lang="
-                . languageUpper
-                . "&text="
-                . sentence
-        }
-
+        StringUpper, languageUpper, Language
+        Body := "auth_key="
+              . DeepLAPIKey
+              . "&source_lang=JA"
+              . "&target_lang="
+              . languageUpper
+              . "&text="
+              . glossified_sentence
 
         if DeepLApiPro = 1
           url := "https://api.deepl.com/v2/translate"
@@ -85,16 +72,13 @@
         translatedText := jsonResponse.translations[1].text
 
         ;;Change back to en for general purpose
-        if(Language = "en-us")
-        {
+        if Language = "en-us"
           Language := "en"
-        }
-
       }
 
       if (UseGoogleTranslate = 1)
       {
-        body := "&source=ja" . "&target=" . Language . "&q=" . sentence
+        body := "&source=ja" . "&target=" . Language . "&q=" . glossified_sentence
 
         url := "https://www.googleapis.com/language/translate/v2?key=" . GoogleTranslateAPIKey . body
         oWhr := ComObjCreate("WinHttp.WinHttpRequest.5.1")
@@ -169,12 +153,12 @@
     ;; Don't add newlines if it isn't dialog text.
     else
     {
-      if (isDialog = "true")
+      if isDialog = "true"
         fullDialog .= result "`n`n"
       else
         fullDialog .= result
 
-      if (Log = 1)
+      if Log = 1
         FileAppend, JP: %sentence%`nEN: %result%`n`n, txtout.txt, UTF-8
     }
   }
