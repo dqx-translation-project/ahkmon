@@ -49,7 +49,7 @@ Global UseGoogleTranslate
 Global GoogleTranslateAPIKey
 
 ;; === General Quest Text ====================================================
-questAddress := 0x01F87988
+questAddress := 0x020149C8
 questNameOffsets := [0xC, 0x8, 0x4C4]
 questSubQuestNameOffsets := [0xC, 0x8, 0x48C]
 questDescriptionOffsets := [0xC, 0x8, 0x4FC]

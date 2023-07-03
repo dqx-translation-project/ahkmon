@@ -581,6 +581,8 @@ if (translateQuests = 1)
   Run, questFinder.exe "nothing"
   Run, mapQuestFinder.exe "nothing"
 }
+; Disabling Story and Mail for now, as no consistent pointers could be found as of game version 6.5.0
+/*
 if (translateStory = 1)
 {
   Run, storyFinder.exe "nothing"
@@ -590,6 +592,7 @@ if (translateMail = 1)
   Run, mailFinder.exe "nothing"
   Run, voicemailFinder.exe "nothing"
 }
+*/
 if (translateloginMessage = 1)
 {
   Run, loginMessageFinder.exe "nothing"
