@@ -75,11 +75,11 @@ loop 32
   JoystickKeys .= JoystickNumber . "Joy" . A_Index . ","
 
 ;; === General Quest Text ====================================================
-questAddress := 0x02013D7C
+questAddress := 0x0223CE20
 questNameOffsets := [0x34, 0xCC, 0x108]
 questSubQuestNameOffsets := [0x34, 0xCC, 0xD0]
 questDescriptionOffsets := [0x34, 0xCC, 0x140]
-mapOpenPointer := 0x02010248
+mapOpenPointer := 0x022392D8
 mapOpenOffsets := [0x8, 0x38, 0x4, 0x4, 0x4, 0x104]
 
 ;== Save overlay POS when moved =============================================

@@ -34,6 +34,8 @@ translate(dqText, isDialog)
     {
       ;; Replace text with glossary before sending off to be translated
       glossified_sentence := glossify(sentence)
+      StringReplace,glossified_sentence,glossified_sentence,`n,,A
+      StringReplace,glossified_sentence,glossified_sentence,`r,,A
 
       ;; If not found locally, make a call to the translate API to get translated text.
       if UseDeepLTranslate = 1
